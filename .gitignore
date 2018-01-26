@@ -1,0 +1,10 @@
+# Urn specific stuff
+/docs_tmp
+/out*
+/tests
+
+# Various package/jekyll stuff
+/.jekyll-metadata
+/_posts_out
+/_site
+/node_modules

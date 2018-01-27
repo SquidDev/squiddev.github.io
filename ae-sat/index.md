@@ -4,8 +4,6 @@
 > wrong! I should also warn you that, whilst I'll try to keep this as accessible as possible, some prior
 > programming/comp-sci knowledge is recommended.
 
-> **Note:** There were some holes in the initial version: I've added an update at the bottom.
-
 In this little document we'll show that one can represent Boolean satisfiability problems as Applied Energistics (or
 Refined Storage) crafting recipes, and so prove that autocrafting is NP-complete.
 
@@ -31,18 +29,27 @@ power. Conjunctive normal form simply means our formulae is composed of several 
 Now we've got these 4 simple constructs, we now need to find a way to represent them in the system...
 
 ###  Variables
-Variables are definitely the simplest to represent. Simply chose some unique item and insert *one* into your AE (or RS)
-system.
+We'll represent all terms in our system with some form of coloured leather armour. This provides us with a large number
+of unique items which are both visually distinct but easilly classifiable. For variables, we'll use leather helmets. We
+take *one* unique helmet for each variable and insert it into the AE (or RS system).
 
 ![An item representing a variable](variable.png "An item representing a variable")
 
-Note that all our variables are just differently coloured leather helmets. We'll use these (and other leather armour
-pieces) as it allows for a large number of unique items.
+Whilst this is a good start, it is not enough quite enough to represent a variable. As variables may be used multiple
+times in different conjunctions, we must create a recipe mapping our "variable item" to several "truthy item"s.[^1] As a
+variable should appear in each disjunction clause at most once, we only need to produce a stack with the same number of
+items as clauses.
+
+![A recipe converting a variable item to a truthy item](variable-true.png "A recipe converting a variable item to a truthy item")
+
+You may be wondering why we don't just start with these truthy items. It may seem strange, but this rather round-about
+method comes in useful in the next step...
 
 ### Negation
-If our negation of a variable must be true, then we know the original variable cannot be true. Thus we define a crafting
-recipe which converts our "variable item" into some unique "negation item". Only one of these can exist in the system at
-one time (remember there is only one instance of each variable item).
+If our negation of a variable must be true, then we know the original variable cannot be true. Or more simply, one
+cannot use a variable and its negation in the same solution. This, like the truthy items, we create a recipe converting
+our initial variable item to several "falsey item"s (or "negation item"s). As there is only one variable item in the
+system, only one recipe can be used and so only truthy or falsey items can be used in the solution.
 
 ![A recipe mapping a variable item to its negation](negation.png "A recipe mapping a variable item to its negation")
 
@@ -107,17 +114,12 @@ files, but remember to keep the numbers small!
 I'd like to finish off by thanking demhydraz, who got me going down this rabbit whole in the first place, and has been
 immensely useful as a sounding board.
 
-## Update #1
-I've noticed an issue with the above "proof" where a variable (or its negation) can only be used in one disjunction:
-meaning an expression may be considered unsatisfiable even if there is some solution. A work around for this issue would
-be to create two recipes, one mapping your initial variable item to a stack of "truthy items" and another recipe mapping
-it to a stack of "falsey items" (representing the negation). This allows you to reuse terms without being able to use
-both the negation and intial variable.
-
-I don't believe this will allow AE to solve any formulae it couldn't already, but I will update this post when I have
-confirmation either way.
-
 [lua_cnf]: https://gist.github.com/SquidDev/898a9674e412c851c31552e4ced615a6 "cnf.lua ComputerCraft script"
 [cnf_files]: https://www.dwheeler.com/essays/minisat-user-guide.html "The .cnf format explained"
+
+[^1]: The initial version of this missed out creating truthy items, meaning a variable could only ever be used once in
+      the whole expression. Consequently satisfiable expressions may have been rejected. In the tests I ran it didn't
+      have any effect on the result, but on a more complete crafting solver (with more complex expressions) it most
+      definitely would.
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

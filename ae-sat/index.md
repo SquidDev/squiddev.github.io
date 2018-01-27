@@ -96,4 +96,12 @@ On a more serious note, it is interesting that there are some circumstances wher
 when it is. Whether this is an issue in practice is a different matter, but I don't think I've ever concerned myself
 with the practical side of things.
 
+If you fancy experimenting yourself, I've put together [a Lua program][lua_cnf]which will spawn in the appropriate
+items/patterns using ComputerCraft's command computer. You'll need to provide input in the form of [DIMACS `.cnf`
+files][cnf_files]. I'd heartily recommend [this website](http://toughsat.appspot.com/) for generating files for random
+files, but remember to keep the numbers small!
+
+[lua_cnf]: https://gist.github.com/SquidDev/898a9674e412c851c31552e4ced615a6 "cnf.lua ComputerCraft script"
+[cnf_files]: https://www.dwheeler.com/essays/minisat-user-guide.html "The .cnf format explained"
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

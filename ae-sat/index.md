@@ -1,8 +1,10 @@
 # Auto-crafting is NP-complete
 
-> **Disclaimer** I am by no means an expert in this sort of thing so please do correct me if I get things entirely
+> **Disclaimer:** I am by no means an expert in this sort of thing so please do correct me if I get things entirely
 > wrong! I should also warn you that, whilst I'll try to keep this as accessible as possible, some prior
 > programming/comp-sci knowledge is recommended.
+
+> **Note:** There were some holes in the initial version: I've added an update at the bottom.
 
 In this little document we'll show that one can represent Boolean satisfiability problems as Applied Energistics (or
 Refined Storage) crafting recipes, and so prove that autocrafting is NP-complete.
@@ -104,6 +106,16 @@ files, but remember to keep the numbers small!
 
 I'd like to finish off by thanking demhydraz, who got me going down this rabbit whole in the first place, and has been
 immensely useful as a sounding board.
+
+## Update #1
+I've noticed an issue with the above "proof" where a variable (or its negation) can only be used in one disjunction:
+meaning an expression may be considered unsatisfiable even if there is some solution. A work around for this issue would
+be to create two recipes, one mapping your initial variable item to a stack of "truthy items" and another recipe mapping
+it to a stack of "falsey items" (representing the negation). This allows you to reuse terms without being able to use
+both the negation and intial variable.
+
+I don't believe this will allow AE to solve any formulae it couldn't already, but I will update this post when I have
+confirmation either way.
 
 [lua_cnf]: https://gist.github.com/SquidDev/898a9674e412c851c31552e4ced615a6 "cnf.lua ComputerCraft script"
 [cnf_files]: https://www.dwheeler.com/essays/minisat-user-guide.html "The .cnf format explained"

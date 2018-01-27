@@ -1,15 +1,19 @@
-# Auto-crafting is NP-complete
+# Autocrafting is NP-hard
 
 > **Disclaimer:** I am by no means an expert in this sort of thing so please do correct me if I get things entirely
 > wrong! I should also warn you that, whilst I'll try to keep this as accessible as possible, some prior
 > programming/comp-sci knowledge is recommended.
 
+> **Note:** Previously I claimed that autocrafting was NP-complete. As /u/GandhiNotGhandi[^np] pointed out, we only
+> prove that autocrafting is NP-hard.
+
 In this little document we'll show that one can represent Boolean satisfiability problems as Applied Energistics (or
-Refined Storage) crafting recipes, and so prove that autocrafting is NP-complete.
+Refined Storage) crafting recipes, and so prove that autocrafting is NP-hard.
 
 Firstly, let's start with some simplistic definitions:
- - NP-complete: Whilst we could witter on about "Non-deterministic polynomial time" or whatever, for all intents and
-   purposes this just means "it takes a long time".
+ - NP: Whilst we could witter on about "Non-deterministic polynomial
+   time" or whatever, for all intents and purposes this just means "it
+   takes a long time".
  - Boolean satisfiability: a problem which attempts to determine whether there is a collection of variables that will
    result in a given Boolean expression evaluating to true.
 
@@ -36,9 +40,9 @@ take *one* unique helmet for each variable and insert it into the AE (or RS syst
 ![An item representing a variable](variable.png "An item representing a variable")
 
 Whilst this is a good start, it is not quite enough to represent a variable. As variables may be used multiple times in
-different conjunctions, we must create a recipe mapping our "variable item" to several "truthy item"s.[^1] As a variable
-should appear in each disjunction clause at most once, we only need to produce a stack with the same number of items as
-clauses.
+different conjunctions, we must create a recipe mapping our "variable item" to several "truthy item"s.[^vars] As a
+variable should appear in each disjunction clause at most once, we only need to produce a stack with the same number of
+items as clauses.
 
 ![A recipe converting a variable item to a truthy item](variable-true.png "A recipe converting a variable item to a truthy item")
 
@@ -95,7 +99,8 @@ Now this is an issue, it appears that AE says no solution exists when there clea
 $$b$$ should be true (which is fine) but also that $$a$$ should be true *and* false (which is less fine).
 
 So whilst one *should* be able to solve SAT problems with your storage system, the current systems do not provide a
-suitable algorithm for doing so: preferring something efficient but incomplete over something complete and slow.
+suitable algorithm for doing so: preferring something efficient but incomplete over something complete and
+slow[^akarso].
 
 ## What now?
 I'm going to be honest, the previous paragraph's conclusions leave me a little bit gutted. I really was looking forward
@@ -116,10 +121,19 @@ immensely useful as a sounding board.
 
 [lua_cnf]: https://gist.github.com/SquidDev/898a9674e412c851c31552e4ced615a6 "cnf.lua ComputerCraft script"
 [cnf_files]: https://www.dwheeler.com/essays/minisat-user-guide.html "The .cnf format explained"
+[reddit_np_hard]: https://www.reddit.com/r/feedthebeast/comments/7t8v0o/autocrafting_is_npcomplete/dtc105h/ "GhandiNotGhandi's commet about NP-hardness on Reddit"
+[reddit_akarso]: https://www.reddit.com/r/feedthebeast/comments/7t8v0o/autocrafting_is_npcomplete/dtbgkz9/ "akarso's comments on Reddit"
 
-[^1]: The initial version of this missed out creating truthy items, meaning a variable could only ever be used once in
-      the whole expression. Consequently satisfiable expressions may have been rejected. In the tests I ran it didn't
-      have any effect on the result, but on a more complete crafting solver (with more complex expressions) it most
-      definitely would.
+[^np]: The full comment [can be read here][reddit_np_hard]. GhandiNotGhandi also makes some interesting comments on the
+       what complexity class autocrafting could be in, if not NP.
+
+[^vars]: The initial version of this missed out creating truthy items, meaning a variable could only ever be used once in
+         the whole expression. Consequently satisfiable expressions may have been rejected. In the tests I ran it didn't
+         have any effect on the result, but on a more complete crafting solver (with more complex expressions) it most
+         definitely would.
+
+[^akarso]: One of the AE2 developers has written some [very insightful comments][reddit_akarso] on both this post and
+           autocrafting in general. It does a really good job of explaining some of the optimisations AE does in order
+           produce crafting plans, as well as showing quite how complex autocrafting is.
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

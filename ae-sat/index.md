@@ -35,10 +35,10 @@ take *one* unique helmet for each variable and insert it into the AE (or RS syst
 
 ![An item representing a variable](variable.png "An item representing a variable")
 
-Whilst this is a good start, it is not enough quite enough to represent a variable. As variables may be used multiple
-times in different conjunctions, we must create a recipe mapping our "variable item" to several "truthy item"s.[^1] As a
-variable should appear in each disjunction clause at most once, we only need to produce a stack with the same number of
-items as clauses.
+Whilst this is a good start, it is not quite enough to represent a variable. As variables may be used multiple times in
+different conjunctions, we must create a recipe mapping our "variable item" to several "truthy item"s.[^1] As a variable
+should appear in each disjunction clause at most once, we only need to produce a stack with the same number of items as
+clauses.
 
 ![A recipe converting a variable item to a truthy item](variable-true.png "A recipe converting a variable item to a truthy item")
 
@@ -111,7 +111,7 @@ items/patterns using ComputerCraft's command computer. You'll need to provide in
 files][cnf_files]. I'd heartily recommend [this website](http://toughsat.appspot.com/) for generating files for random
 files, but remember to keep the numbers small!
 
-I'd like to finish off by thanking demhydraz, who got me going down this rabbit whole in the first place, and has been
+I'd like to finish off by thanking demhydraz, who got me going down this rabbit hole in the first place, and has been
 immensely useful as a sounding board.
 
 [lua_cnf]: https://gist.github.com/SquidDev/898a9674e412c851c31552e4ced615a6 "cnf.lua ComputerCraft script"

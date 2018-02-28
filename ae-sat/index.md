@@ -37,14 +37,14 @@ We'll represent all terms in our system with some form of coloured leather armou
 of unique items which are both visually distinct but easilly classifiable. For variables, we'll use leather helmets. We
 take *one* unique helmet for each variable and insert it into the AE (or RS system).
 
-![An item representing a variable](variable.png "An item representing a variable")
+![An item representing a variable](img/sat-variable.png "An item representing a variable")
 
 Whilst this is a good start, it is not quite enough to represent a variable. As variables may be used multiple times in
 different conjunctions, we must create a recipe mapping our "variable item" to several "truthy item"s.[^vars] As a
 variable should appear in each disjunction clause at most once, we only need to produce a stack with the same number of
 items as clauses.
 
-![A recipe converting a variable item to a truthy item](variable-true.png "A recipe converting a variable item to a truthy item")
+![A recipe converting a variable item to a truthy item](img/sat-variable-true.png "A recipe converting a variable item to a truthy item")
 
 You may be wondering why we don't just start with these truthy items. It may seem strange, but this rather round-about
 method comes in useful in the next step...
@@ -55,20 +55,20 @@ cannot use a variable and its negation in the same solution. This, like the trut
 our initial variable item to several "falsey item"s (or "negation item"s). As there is only one variable item in the
 system, only one recipe can be used and so only truthy or falsey items can be used in the solution.
 
-![A recipe mapping a variable item to its negation](negation.png "A recipe mapping a variable item to its negation")
+![A recipe mapping a variable item to its negation](img/sat-negation.png "A recipe mapping a variable item to its negation")
 
 ### Disjunction
 For a disjunction to hold, only one of its constitute atoms must hold. Thus for each element in the disjunction we
 create a recipe which converts our "atom item" (either a variable or negation item) into some unique item for this
 disjunction. As we'll only need this "disjunction item" once, only one atom needs to be true.
 
-![Disjunction represented as 3 recipes](disjunction.png "Disjunction represented as 3 recipes")
+![Disjunction represented as 3 recipes](img/sat-disjunction.png "Disjunction represented as 3 recipes")
 
 ### Conjunction
 Conjunction are comparatively easy to represent: as all children must evaluate to true, we just create a recipe from all
 constituents to some other unique item.
 
-![Conjunction represented as a recipe requiring 3 items](conjunction.png "Conjunction represented as a recipe requiring 3 items")
+![Conjunction represented as a recipe requiring 3 items](img/sat-conjunction.png "Conjunction represented as a recipe requiring 3 items")
 
 ## Trying it out
 Let's start with a pretty simple Boolean expression:
@@ -81,7 +81,7 @@ This only has three variables and two clauses (or disjunctions) and so should be
 above rules to express the expression in a items and recipes. Even this trivial example requires 3 initial items and 10
 patterns. None the less, we can still go ahead:
 
-![The crafting plan for the above equation](solve.png "The crafting plan for the above equation")
+![The crafting plan for the above equation](img/sat-solve.png "The crafting plan for the above equation")
 
 Fantastic! Looking at the result we can conclude that $$a$$ must be true (as it shows up in the recipe), $$b$$ must be
 false and the value of $$c$$ is inconsequential. Thankfully this is a valid solution to our expression! There are other
@@ -93,7 +93,7 @@ $$
 (a \vee \neg b \vee \neg d) \wedge (\neg a \vee b \vee \neg c) \wedge (b \vee \neg c \vee d)
 $$
 
-![The failing crafting plan for the above equation](fail.png "The failing crafting plan for the above equation")
+![The failing crafting plan for the above equation](img/sat-fail.png "The failing crafting plan for the above equation")
 
 Now this is an issue, it appears that AE says no solution exists when there clearly is one. Digging deeper, it's decided
 $$b$$ should be true (which is fine) but also that $$a$$ should be true *and* false (which is less fine).
